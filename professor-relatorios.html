@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relatórios - Professor Helcio Padilha</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50, #4a6491);
+            color: white;
+            padding: 1.2rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .nav-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            background: #3498db;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: background 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .main-content {
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .page-header {
+            margin-bottom: 2rem;
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .page-header h1 {
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+            font-size: 1.8rem;
+        }
+
+        .page-header p {
+            color: #7f8c8d;
+            font-size: 1.1rem;
+        }
+
+        .filters {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .filter-group label {
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .filter-group select {
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            background: white;
+        }
+
+        .btn {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.3s;
+            align-self: end;
+        }
+
+        .btn:hover {
+            background: #2980b9;
+        }
+
+        .btn-export {
+            background: #27ae60;
+        }
+
+        .btn-export:hover {
+            background: #219a52;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            text-align: center;
+            border-top: 4px solid #3498db;
+        }
+
+        .stat-card h3 {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+        }
+
+        .stat-card .value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #2c3e50;
+            margin: 0.5rem 0;
+        }
+
+        .stat-card .trend {
+            font-size: 0.8rem;
+            color: #27ae60;
+        }
+
+        .table-container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+
+        .table-header {
+            background: #34495e;
+            color: white;
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .table-header h2 {
+            margin: 0;
+            font-size: 1.3rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 1rem 1.5rem;
+            text-align: left;
+            border-bottom: 1px solid #ecf0f1;
+        }
+
+        th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        tr:hover {
+            background: #f8f9fa;
+        }
+
+        .status {
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .status-aprovado {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-recuperacao {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-reprovado {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .charts-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .chart-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            padding: 1.5rem;
+        }
+
+        .chart-card h3 {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .chart-placeholder {
+            background: #f8f9fa;
+            height: 250px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #7f8c8d;
+            border-radius: 5px;
+            border: 1px dashed #ddd;
+        }
+
+        .actions {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: flex-end;
+            margin-top: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .nav-links {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .filters {
+                grid-template-columns: 1fr;
+            }
+            
+            .charts-container {
+                grid-template-columns: 1fr;
+            }
+            
+            table {
+                font-size: 0.9rem;
+            }
+            
+            th, td {
+                padding: 0.75rem 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-brand">Sistema de Controle de Turmas - 3° TDS</div>
+            <div class="user-info">
+                <div class="user-avatar">HP</div>
+                <span>Prof. Helcio Padilha</span>
+            </div>
+            <div class="nav-links">
+                <a href="professor-dashboard.html">Dashboard</a>
+                <a href="professor-notas.html">Notas</a>
+                <a href="professor-atividades.html">Atividades</a>
+                <a href="professor-frequencia.html">Frequência</a>
+                <a href="professor-alunos.html">Alunos</a>
+                <a href="professor-relatorios.html" class="active">Relatórios</a>
+                <a href="index.html">Sair</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        <div class="page-header">
+            <h1>Relatórios da Turma 3° TDS</h1>
+            <p>Análise detalhada do desempenho dos alunos</p>
+        </div>
+
+        <!-- Filtros -->
+        <div class="filters">
+            <div class="filter-group">
+                <label for="disciplina">Disciplina:</label>
+                <select id="disciplina">
+                    <option value="programacao">Programação</option>
+                    <option value="banco-dados">Banco de Dados</option>
+                    <option value="redes">Redes de Computadores</option>
+                    <option value="web">Desenvolvimento Web</option>
+                </select>
+            </div>
+            
+            <div class="filter-group">
+                <label for="bimestre">Bimestre:</label>
+                <select id="bimestre">
+                    <option value="1">1º Bimestre</option>
+                    <option value="2">2º Bimestre</option>
+                    <option value="3">3º Bimestre</option>
+                    <option value="4">4º Bimestre</option>
+                    <option value="0" selected>Anual</option>
+                </select>
+            </div>
+            
+            <div class="filter-group">
+                <label for="tipo-relatorio">Tipo de Relatório:</label>
+                <select id="tipo-relatorio">
+                    <option value="desempenho">Desempenho Acadêmico</option>
+                    <option value="frequencia">Frequência</option>
+                    <option value="atividades">Atividades</option>
+                    <option value="completo">Relatório Completo</option>
+                </select>
+            </div>
+            
+            <button class="btn" onclick="filtrarRelatorios()">Aplicar Filtros</button>
+            <button class="btn btn-export" onclick="exportarRelatorio()">Exportar PDF</button>
+        </div>
+
+        <!-- Estatísticas -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3>Média da Turma</h3>
+                <div class="value">7.8</div>
+                <div class="trend">+0.3 vs último bimestre</div>
+            </div>
+            <div class="stat-card">
+                <h3>Taxa de Aprovação</h3>
+                <div class="value">85%</div>
+                <div class="trend">+5% vs último bimestre</div>
+            </div>
+            <div class="stat-card">
+                <h3>Frequência Média</h3>
+                <div class="value">92%</div>
+                <div class="trend">+2% vs último bimestre</div>
+            </div>
+            <div class="stat-card">
+                <h3>Atividades Entregues</h3>
+                <div class="value">88%</div>
+                <div class="trend">+8% vs último bimestre</div>
+            </div>
+        </div>
+
+        <!-- Tabela de Desempenho -->
+        <div class="table-container">
+            <div class="table-header">
+                <h2>Desempenho dos Alunos - 3° TDS</h2>
+                <span>Disciplina: Programação</span>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Aluno</th>
+                        <th>Nota 1º Bim</th>
+                        <th>Nota 2º Bim</th>
+                        <th>Nota 3º Bim</th>
+                        <th>Nota 4º Bim</th>
+                        <th>Média Final</th>
+                        <th>Frequência</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>ANNA JULIA DE LIMA</td>
+                        <td>8.5</td>
+                        <td>9.0</td>
+                        <td>8.7</td>
+                        <td>9.2</td>
+                        <td>8.9</td>
+                        <td>95%</td>
+                        <td><span class="status status-aprovado">Aprovado</span></td>
+                    </tr>
+                    <tr>
+                        <td>PEDRO HENRIQUE CAMARGO</td>
+                        <td>7.8</td>
+                        <td>8.2</td>
+                        <td>7.5</td>
+                        <td>8.0</td>
+                        <td>7.9</td>
+                        <td>90%</td>
+                        <td><span class="status status-aprovado">Aprovado</span></td>
+                    </tr>
+                    <tr>
+                        <td>THIAGO TAVARES</td>
+                        <td>6.5</td>
+                        <td>7.0</td>
+                        <td>6.8</td>
+                        <td>7.5</td>
+                        <td>7.0</td>
+                        <td>88%</td>
+                        <td><span class="status status-aprovado">Aprovado</span></td>
+                    </tr>
+                    <tr>
+                        <td>VINICIUS FIDELIS</td>
+                        <td>9.2</td>
+                        <td>8.8</td>
+                        <td>9.5</td>
+                        <td>9.0</td>
+                        <td>9.1</td>
+                        <td>98%</td>
+                        <td><span class="status status-aprovado">Aprovado</span></td>
+                    </tr>
+                    <tr>
+                        <td>ADRIAN RODRIGO</td>
+                        <td>5.8</td>
+                        <td>6.2</td>
+                        <td>5.5</td>
+                        <td>6.8</td>
+                        <td>6.1</td>
+                        <td>85%</td>
+                        <td><span class="status status-recuperacao">Recuperação</span></td>
+                    </tr>
+                    <tr>
+                        <td>HYGOR MEIRELES</td>
+                        <td>8.0</td>
+                        <td>8.5</td>
+                        <td>7.8</td>
+                        <td>8.2</td>
+                        <td>8.1</td>
+                        <td>92%</td>
+                        <td><span class="status status-aprovado">Aprovado</span></td>
+                    </tr>
+                    <tr>
+                        <td>EMILLY VIEIRA</td>
+                        <td>9.5</td>
+                        <td>9.2</td>
+                        <td>9.8</td>
+                        <td>9.5</td>
+                        <td>9.5</td>
+                        <td>96%</td>
+                        <td><span class="status status-aprovado">Aprovado</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Gráficos -->
+        <div class="charts-container">
+            <div class="chart-card">
+                <h3>Distribuição de Notas</h3>
+                <div class="chart-placeholder">
+                    Gráfico de Distribuição de Notas<br>
+                    (Será implementado com Chart.js)
+                </div>
+            </div>
+            <div class="chart-card">
+                <h3>Comparativo de Desempenho por Bimestre</h3>
+                <div class="chart-placeholder">
+                    Gráfico de Comparativo<br>
+                    (Será implementado com Chart.js)
+                </div>
+            </div>
+        </div>
+
+        <!-- Ações -->
+        <div class="actions">
+            <button class="btn" onclick="imprimirRelatorio()">Imprimir Relatório</button>
+            <button class="btn btn-export" onclick="exportarExcel()">Exportar para Excel</button>
+        </div>
+    </main>
+
+    <script>
+        function filtrarRelatorios() {
+            const disciplina = document.getElementById('disciplina').value;
+            const bimestre = document.getElementById('bimestre').value;
+            const tipoRelatorio = document.getElementById('tipo-relatorio').value;
+            
+            alert(`Filtrando por: ${disciplina} - ${bimestre}º Bimestre - ${tipoRelatorio}`);
+            // Aqui você implementaria a lógica de filtragem real
+        }
+
+        function exportarRelatorio() {
+            alert('Exportando relatório para PDF...');
+            // Implementar lógica de exportação para PDF
+        }
+
+        function exportarExcel() {
+            alert('Exportando para Excel...');
+            // Implementar lógica de exportação para Excel
+        }
+
+        function imprimirRelatorio() {
+            window.print();
+        }
+
+        // Carregar dados ao iniciar a página
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Página de relatórios carregada para o Professor Helcio Padilha');
+        });
+    </script>
+</body>
+</html>
